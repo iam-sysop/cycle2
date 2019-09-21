@@ -1,7 +1,7 @@
 /*!
-* jQuery Cycle2; version: 2.1.6 build: 20141007
+* jQuery Cycle2; version: 2.1.6 build: 20190921
 * http://jquery.malsup.com/cycle2/
-* Copyright (c) 2014 M. Alsup; Dual licensed: MIT/GPL
+* Copyright (c) 2019 M. Alsup; Dual licensed: MIT/GPL
 */
 
 /* Cycle2 core engine */
@@ -90,7 +90,20 @@ $.fn.cycle.API = {
         slides = slides.jquery ? slides : opts.container.find( slides );
 
         if ( opts.random ) {
-            slides.sort(function() {return Math.random() - 0.5;});
+            // slides.sort(function() {return Math.random() - 0.5;});
+            // Change random sort to use Fisher-Yates shuffle #424 https://github.com/malsup/cycle2/pull/424
+
+            slides = (function(a) {  // Fisher-Yates shuffle
+                var i, j, t;
+                i = a.length;
+                while (--i > 0) {
+                    j = ~~(Math.random() * (i + 1));
+                    t = a[j];
+                    a[j] = a[i];
+                    a[i] = t;
+                }
+                return a;
+            })(slides);
         }
 
         opts.API.add( slides );
@@ -250,10 +263,17 @@ $.fn.cycle.API = {
     calcFirstSlide: function() {
         var opts = this.opts();
         var firstSlideIndex;
-        firstSlideIndex = parseInt( opts.startingSlide || 0, 10 );
-        if (firstSlideIndex >= opts.slides.length || firstSlideIndex < 0)
-            firstSlideIndex = 0;
-
+        
+        // check startingSlide option for "random" first slide        
+        if (typeof opts.startingSlide === 'string' && opts.startingSlide === 'random') {
+            firstSlideIndex = Math.floor(Math.random() * opts.slides.length);
+        } else {
+            // original code
+            firstSlideIndex = parseInt( opts.startingSlide || 0, 10 );
+            if (firstSlideIndex >= opts.slides.length || firstSlideIndex < 0)
+                firstSlideIndex = 0;
+        }
+        
         opts.currSlide = firstSlideIndex;
         if ( opts.reverse ) {
             opts.nextSlide = firstSlideIndex - 1;
@@ -1156,7 +1176,10 @@ $(document).on( 'cycle-bootstrap', function( e, opts ) {
                     imageLoaded();
                 }
                 else {
-                    $(this).load(function() {
+                    // fix for jQuery 3.0 deprecate .load() function
+                    // jakeparis referenced this pull request on Jun 23, 2016 https://github.com/malsup/cycle2/pull/779
+                    // cycle2 & center incompatible with JQuery 3.0.0 #778 https://github.com/malsup/cycle2/issues/778
+                    $(this).on("load", function() {
                         imageLoaded();
                     }).on("error", function() {
                         if ( --count === 0 ) {
