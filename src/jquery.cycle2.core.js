@@ -244,10 +244,17 @@ $.fn.cycle.API = {
     calcFirstSlide: function() {
         var opts = this.opts();
         var firstSlideIndex;
-        firstSlideIndex = parseInt( opts.startingSlide || 0, 10 );
-        if (firstSlideIndex >= opts.slides.length || firstSlideIndex < 0)
-            firstSlideIndex = 0;
-
+        
+        // check startingSlide option for "random" first slide        
+        if (typeof opts.startingSlide === 'string' && opts.startingSlide === 'random') {
+            firstSlideIndex = Math.floor(Math.random() * opts.slides.length);
+        } else {
+            // original code
+            firstSlideIndex = parseInt( opts.startingSlide || 0, 10 );
+            if (firstSlideIndex >= opts.slides.length || firstSlideIndex < 0)
+                firstSlideIndex = 0;
+        }
+        
         opts.currSlide = firstSlideIndex;
         if ( opts.reverse ) {
             opts.nextSlide = firstSlideIndex - 1;
