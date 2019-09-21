@@ -54,7 +54,7 @@ $(document).on( 'cycle-bootstrap', function( e, opts ) {
                     // fix for jQuery 3.0 deprecate .load() function
                     // jakeparis referenced this pull request on Jun 23, 2016 https://github.com/malsup/cycle2/pull/779
                     // cycle2 & center incompatible with JQuery 3.0.0 #778 https://github.com/malsup/cycle2/issues/778
-                    $(this)on("load", function() {
+                    $(this).on("load", function() {
                         imageLoaded();
                     }).on("error", function() {
                         if ( --count === 0 ) {
