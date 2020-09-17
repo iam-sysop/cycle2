@@ -1,4 +1,4 @@
-/*! tCycle (c) 2013 M.Alsup MIT/GPL 20131130 */
+/*! tCycle (c) 2013 M.Alsup MIT/GPL 20200917 */
 (function($){
 "use strict";
 $.fn.tcycle = function(){

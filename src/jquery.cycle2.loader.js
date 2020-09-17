@@ -1,4 +1,4 @@
-/*! loader plugin for Cycle2;  version: 20131121 */
+/*! loader plugin for Cycle2;  version: 20200917 */
 (function($) {
 "use strict";
 
@@ -19,7 +19,12 @@ $(document).on( 'cycle-bootstrap', function( e, opts ) {
     function add( slides, prepend ) {
         var slideArr = [];
         if ( $.type( slides ) == 'string' )
-            slides = $.trim( slides );
+
+            // FIX: $.trim DEPRECATED in JQUERY 3.5+
+            // slides = $.trim( slides );
+            
+            slides = slides.trim();
+                        
         else if ( $.type( slides) === 'array' ) {
             for (var i=0; i < slides.length; i++ )
                 slides[i] = $(slides[i])[0];

@@ -2,7 +2,7 @@
 ;(function($) {
 "use strict";
 
-var version = '2.1.6';
+var version = '2.1.6b';
 
 $.fn.cycle = function( options ) {
     // fix mistakes with the ready state
@@ -213,7 +213,11 @@ $.fn.cycle.API = {
         var len;
 
         if ( $.type(slides) == 'string')
-            slides = $.trim( slides );
+
+            // FIX: $.trim DEPRECATED in JQUERY 3.5+
+            // slides = $.trim( slides );
+            
+            slides = slides.trim();
 
         $( slides ).each(function(i) {
             var slideOpts;

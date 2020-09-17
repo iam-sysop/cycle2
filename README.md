@@ -1,51 +1,41 @@
 # Cycle2 - 2nd Generation Cycling!
 
+## UPDATED REPO
+**This repo contains fixes and updates for Cycle2 to remain compatible with NEWER versions of jQuery 3.x and up.**  
+
 ## Getting Started
-Download either the [production version][min] or the [development version][max] of Cycle2.
-
-[min]: http://malsup.github.com/min/jquery.cycle2.min.js
-[max]: http://malsup.github.com/jquery.cycle2.js
-
 In your web page:
 
-<pre>
-&lt;!-- include jQuery -->
-&lt;script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js">&lt;/script>
-&lt;!-- include Cycle2 -->
-&lt;script src="http://path/to/your/copy/of/jquery.cycle2.min.js">&lt;/script>
+```html
+<!-- include jQuery 3 -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<!-- OR include jQuery 2 -->
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 
-...
+<!-- include Cycle2 -->
+<script src="http://path/to/your/copy/of/jquery.cycle2.min.js"></script>
+```
 
-&lt;!-- declare a slideshow -->
-&lt;div class="<strong>cycle-slideshow</strong>">
-    &lt;img src="http://malsup.github.com/images/p1.jpg">
-    &lt;img src="http://malsup.github.com/images/p2.jpg">
-    &lt;img src="http://malsup.github.com/images/p3.jpg">
-&lt;/div>
-</pre>
+```html
+<!-- declare a slideshow -->
+<div class="cycle-slideshow">
+    <img src="http://malsup.github.com/images/p1.jpg">
+    <img src="http://malsup.github.com/images/p2.jpg">
+    <img src="http://malsup.github.com/images/p3.jpg">
+</div>
+```
+
 That's it!  You don't need to write any script to initialize the slideshow, Cycle2 will auto-initialize if you use the class <code>cycle-slideshow</code>.
 
-## Documentation, Demos, Downloads and FAQ
+## Documentation, Demos, and FAQ
 Everything you need to know can be found here: 
 [http://jquery.malsup.com/cycle2/](http://jquery.malsup.com/cycle2/)
-
-## Bower
-To install Cycle2 via Bower:
-<pre>bower install jquery-cycle2</pre>
-The only file you will need (unless you're customizing) is <code>build/jquery.cycle2.min.js</code>
-
-(Other files are available for advanced customization and you can read more about them on the [download]
-and [advanced download][advanced] pages.)
-
-[download]: http://jquery.malsup.com/cycle2/download/
-[advanced]: http://jquery.malsup.com/cycle2/download/advanced.php
-
 
 ## Build
 If you want to make changes to Cycle2 and build it yourself, you can do so by installing the node build dependencies:
 <pre>npm install</pre>
-and then running grunt
-<pre>grunt</pre>
+and then running the build
+<pre>npm run build-dist</pre>
 
 ## Copyright and License
 Copyright &copy; 2012-2014 M. Alsup.

@@ -1,4 +1,4 @@
-/*! scrollVert transition plugin for Cycle2;  version: 20140128 */
+/*! scrollVert transition plugin for Cycle2;  version: 20200917 */
 (function($) {
 "use strict";
 

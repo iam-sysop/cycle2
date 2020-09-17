@@ -1,4 +1,4 @@
-/*! hash plugin for Cycle2;  version: 20130905 */
+/*! hash plugin for Cycle2;  version: 20200917 */
 (function($) {
 "use strict";
 

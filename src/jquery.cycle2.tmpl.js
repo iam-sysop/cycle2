@@ -1,4 +1,4 @@
-/*! tmpl plugin for Cycle2;  version: 20121227 */
+/*! tmpl plugin for Cycle2;  version: 20200917 */
 (function($) {
 "use strict";
 

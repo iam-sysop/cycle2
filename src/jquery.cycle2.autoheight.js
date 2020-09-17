@@ -1,4 +1,4 @@
-/*! Cycle2 autoheight plugin; Copyright (c) M.Alsup, 2012; version: 20130913 */
+/*! Cycle2 autoheight plugin; Copyright (c) M.Alsup, 2012; version: 20200917 */
 (function($) {
 "use strict";
 

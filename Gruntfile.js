@@ -11,6 +11,7 @@ grunt.initConfig({
             separator: '\n',
             banner: '/*!\n* jQuery Cycle2; version: <%=pkg.version %> build: <%= grunt.template.today("yyyymmdd") %>\n' +
               '* http://jquery.malsup.com/cycle2/\n' +
+              '* updated repo at https://github.com/thecarnie/cycle2/\n' +
               '* Copyright (c) <%= grunt.template.today("yyyy") %> M. Alsup; Dual licensed: MIT/GPL\n*/\n\n'
         }, 
         dist: {
@@ -60,6 +61,7 @@ grunt.initConfig({
             options: {
                 banner: '/*!\n* jQuery Cycle2; version: <%=pkg.version %> build: <%= grunt.template.today("yyyymmdd") %>\n' +
                     '* http://jquery.malsup.com/cycle2/\n' +
+                    '* updated repo at https://github.com/thecarnie/cycle2/\n' +
                     '* Copyright (c) <%= grunt.template.today("yyyy") %> M. Alsup; Dual licensed: MIT/GPL\n*/\n'
             },
             files: {

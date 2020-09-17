@@ -1,4 +1,4 @@
-/*! css3 flip transition plugin for Cycle2;  version: 20140128 */
+/*! css3 flip transition plugin for Cycle2;  version: 20200917 */
 /*! originally written by Laubeee (https://github.com/Laubeee) */
 (function($) {
 "use strict";

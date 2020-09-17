@@ -1,14 +1,15 @@
 /*!
-* jQuery Cycle2; version: 2.1.6 build: 20190921
+* jQuery Cycle2; version: 2.1.6b build: 20200917
 * http://jquery.malsup.com/cycle2/
-* Copyright (c) 2019 M. Alsup; Dual licensed: MIT/GPL
+* updated repo at https://github.com/thecarnie/cycle2/
+* Copyright (c) 2020 M. Alsup; Dual licensed: MIT/GPL
 */
 
 /* Cycle2 core engine */
 ;(function($) {
 "use strict";
 
-var version = '2.1.6';
+var version = '2.1.6b';
 
 $.fn.cycle = function( options ) {
     // fix mistakes with the ready state
@@ -219,7 +220,11 @@ $.fn.cycle.API = {
         var len;
 
         if ( $.type(slides) == 'string')
-            slides = $.trim( slides );
+
+            // FIX: $.trim DEPRECATED in JQUERY 3.5+
+            // slides = $.trim( slides );
+            
+            slides = slides.trim();
 
         $( slides ).each(function(i) {
             var slideOpts;
@@ -708,7 +713,7 @@ $(document).ready(function() {
 
 })(jQuery);
 
-/*! Cycle2 autoheight plugin; Copyright (c) M.Alsup, 2012; version: 20130913 */
+/*! Cycle2 autoheight plugin; Copyright (c) M.Alsup, 2012; version: 20200917 */
 (function($) {
 "use strict";
 
@@ -840,7 +845,7 @@ function onDestroy( e, opts ) {
 
 })(jQuery);
 
-/*! caption plugin for Cycle2;  version: 20130306 */
+/*! caption plugin for Cycle2;  version: 20200917 */
 (function($) {
 "use strict";
 
@@ -883,7 +888,7 @@ $(document).on( 'cycle-destroyed', function( e, opts ) {
 
 })(jQuery);
 
-/*! command plugin for Cycle2;  version: 20140415 */
+/*! command plugin for Cycle2;  version: 20200917 */
 (function($) {
 "use strict";
 
@@ -1070,7 +1075,7 @@ $(document).on('click.cycle', '[data-cycle-cmd]', function(e) {
 
 })(jQuery);
 
-/*! hash plugin for Cycle2;  version: 20130905 */
+/*! hash plugin for Cycle2;  version: 20200917 */
 (function($) {
 "use strict";
 
@@ -1123,7 +1128,7 @@ function onHashChange( opts, setStartingSlide ) {
 
 })(jQuery);
 
-/*! loader plugin for Cycle2;  version: 20131121 */
+/*! loader plugin for Cycle2;  version: 20200917 */
 (function($) {
 "use strict";
 
@@ -1144,7 +1149,12 @@ $(document).on( 'cycle-bootstrap', function( e, opts ) {
     function add( slides, prepend ) {
         var slideArr = [];
         if ( $.type( slides ) == 'string' )
-            slides = $.trim( slides );
+
+            // FIX: $.trim DEPRECATED in JQUERY 3.5+
+            // slides = $.trim( slides );
+            
+            slides = slides.trim();
+                        
         else if ( $.type( slides) === 'array' ) {
             for (var i=0; i < slides.length; i++ )
                 slides[i] = $(slides[i])[0];
@@ -1232,7 +1242,7 @@ $(document).on( 'cycle-bootstrap', function( e, opts ) {
 
 })(jQuery);
 
-/*! pager plugin for Cycle2;  version: 20140415 */
+/*! pager plugin for Cycle2;  version: 20200917 */
 (function($) {
 "use strict";
 
@@ -1328,7 +1338,7 @@ function page( pager, target ) {
 
 })(jQuery);
 
-/*! prevnext plugin for Cycle2;  version: 20140408 */
+/*! prevnext plugin for Cycle2;  version: 20200917 */
 (function($) {
 "use strict";
 
@@ -1396,7 +1406,7 @@ $(document).on( 'cycle-destroyed', function( e, opts ) {
 
 })(jQuery);
 
-/*! progressive loader plugin for Cycle2;  version: 20130315 */
+/*! progressive loader plugin for Cycle2;  version: 20200917 */
 (function($) {
 "use strict";
 
@@ -1423,7 +1433,13 @@ $(document).on( 'cycle-pre-initialize', function( e, opts ) {
     }
     else if ( type == 'string' ) {
         scriptEl = $( opts.progressive );
-        slides = $.trim( scriptEl.html() );
+        
+
+        // FIX: $.trim DEPRECATED in JQUERY 3.5+
+        // slides = $.trim( scriptEl.html() );
+        
+        slides = scriptEl.html().trim();
+        
         if ( !slides )
             return;
         // is it json array?
@@ -1528,7 +1544,7 @@ $(document).on( 'cycle-pre-initialize', function( e, opts ) {
 
 })(jQuery);
 
-/*! tmpl plugin for Cycle2;  version: 20121227 */
+/*! tmpl plugin for Cycle2;  version: 20200917 */
 (function($) {
 "use strict";
 

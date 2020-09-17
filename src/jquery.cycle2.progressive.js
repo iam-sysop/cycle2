@@ -1,4 +1,4 @@
-/*! progressive loader plugin for Cycle2;  version: 20130315 */
+/*! progressive loader plugin for Cycle2;  version: 20200917 */
 (function($) {
 "use strict";
 
@@ -25,7 +25,13 @@ $(document).on( 'cycle-pre-initialize', function( e, opts ) {
     }
     else if ( type == 'string' ) {
         scriptEl = $( opts.progressive );
-        slides = $.trim( scriptEl.html() );
+        
+
+        // FIX: $.trim DEPRECATED in JQUERY 3.5+
+        // slides = $.trim( scriptEl.html() );
+        
+        slides = scriptEl.html().trim();
+        
         if ( !slides )
             return;
         // is it json array?
