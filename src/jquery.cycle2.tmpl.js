@@ -27,7 +27,7 @@ $.extend($.fn.cycle.API, {
                     prop = obj[str];
                 }
 
-                if ($.isFunction(prop))
+                if ($.fn.cycle.varType(prop) ==='function')
                     return prop.apply(obj, args);
                 if (prop !== undefined && prop !== null && prop != str)
                     return prop;

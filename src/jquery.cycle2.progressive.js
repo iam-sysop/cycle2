@@ -14,13 +14,13 @@ $(document).on( 'cycle-pre-initialize', function( e, opts ) {
     var nextFn = API.next;
     var prevFn = API.prev;
     var prepareTxFn = API.prepareTx;
-    var type = $.type( opts.progressive );
+    var type = $.fn.cycle.varType( opts.progressive );
     var slides, scriptEl;
 
     if ( type == 'array' ) {
         slides = opts.progressive;
     }
-    else if ($.isFunction( opts.progressive ) ) {
+    else if ($.fn.cycle.varType( opts.progressive ) === 'function' ) {
         slides = opts.progressive( opts );
     }
     else if ( type == 'string' ) {

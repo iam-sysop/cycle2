@@ -18,14 +18,14 @@ $(document).on( 'cycle-bootstrap', function( e, opts ) {
 
     function add( slides, prepend ) {
         var slideArr = [];
-        if ( $.type( slides ) == 'string' )
+        if ( $.fn.cycle.varType( slides ) == 'string' )
 
             // FIX: $.trim DEPRECATED in JQUERY 3.5+
             // slides = $.trim( slides );
             
             slides = slides.trim();
                         
-        else if ( $.type( slides) === 'array' ) {
+        else if ( $.fn.cycle.varType( slides) === 'array' ) {
             for (var i=0; i < slides.length; i++ )
                 slides[i] = $(slides[i])[0];
         }

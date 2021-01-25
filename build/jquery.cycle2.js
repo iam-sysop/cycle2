@@ -1,15 +1,15 @@
 /*!
-* jQuery Cycle2; version: 2.1.6b build: 20200917
+* jQuery Cycle2; version: 2.1.6c build: 20210125
 * http://jquery.malsup.com/cycle2/
 * updated repo at https://github.com/thecarnie/cycle2/
-* Copyright (c) 2020 M. Alsup; Dual licensed: MIT/GPL
+* Copyright (c) 2021 M. Alsup; Dual licensed: MIT/GPL
 */
 
 /* Cycle2 core engine */
 ;(function($) {
 "use strict";
 
-var version = '2.1.6b';
+var version = '2.1.6c';
 
 $.fn.cycle = function( options ) {
     // fix mistakes with the ready state
@@ -114,7 +114,7 @@ $.fn.cycle.API = {
         var opts = this.opts();
         opts.API.trigger('cycle-pre-initialize', [ opts ]);
         var tx = $.fn.cycle.transitions[opts.fx];
-        if (tx && $.isFunction(tx.preInit))
+        if (tx && $.fn.cycle.varType(tx.preInit) ==='function')
             tx.preInit( opts );
         opts._preInitialized = true;
     },
@@ -123,7 +123,7 @@ $.fn.cycle.API = {
         var opts = this.opts();
         opts.API.trigger('cycle-post-initialize', [ opts ]);
         var tx = $.fn.cycle.transitions[opts.fx];
-        if (tx && $.isFunction(tx.postInit))
+        if (tx && $.fn.cycle.varType(tx.postInit) ==='function')
             tx.postInit( opts );
     },
 
@@ -219,7 +219,7 @@ $.fn.cycle.API = {
         var startSlideshow = false;
         var len;
 
-        if ( $.type(slides) == 'string')
+        if ( $.fn.cycle.varType(slides) == 'string')
 
             // FIX: $.trim DEPRECATED in JQUERY 3.5+
             // slides = $.trim( slides );
@@ -439,7 +439,7 @@ $.fn.cycle.API = {
         }
         if ( opts.continueAuto !== undefined ) {
             if ( opts.continueAuto === false || 
-                ($.isFunction(opts.continueAuto) && opts.continueAuto() === false )) {
+                ($.fn.cycle.varType(opts.continueAuto) ==='function' && opts.continueAuto() === false )) {
                 opts.API.log('terminating automatic transitions');
                 opts.timeout = 0;
                 if ( opts.timeoutId )
@@ -635,11 +635,34 @@ $.fn.cycle.log = function log() {
 
 $.fn.cycle.version = function() { return 'Cycle2: ' + version; };
 
+$.fn.cycle.varType = function(obj, fullClass) {
+
+    // get toPrototypeString() of obj (handles all types)
+    // Early JS environments return '[object Object]' for null, so it's best to directly check for it.
+    if (fullClass) {
+        return (obj === null) ? '[object Null]' : Object.prototype.toString.call(obj);
+    }
+    if (obj == null) { return (obj + '').toLowerCase(); } // implicit toString() conversion
+
+    var deepType = Object.prototype.toString.call(obj).slice(8,-1).toLowerCase();
+    if (deepType === 'generatorfunction') { return 'function'; }
+
+    // Prevent overspecificity (for example, [object HTMLDivElement], etc).
+    // Account for functionish Regexp (Android <=2.3), functionish <object> element (Chrome <=57, Firefox <=52), etc.
+    // String.prototype.match is universally supported.
+
+    return deepType.match(/^(array|bigint|date|error|function|generator|regexp|symbol)$/) ? deepType :
+        (typeof obj === 'object' || typeof obj === 'function') ? 'object' : typeof obj;
+};
+
 // helper functions
 
 function lowerCase(s) {
     return (s || '').toLowerCase();
 }
+
+
+
 
 // expose transition object
 $.fn.cycle.transitions = {
@@ -725,7 +748,7 @@ $.extend($.fn.cycle.defaults, {
 
 $(document).on( 'cycle-initialized', function( e, opts ) {
     var autoHeight = opts.autoHeight;
-    var t = $.type( autoHeight );
+    var t = $.fn.cycle.varType( autoHeight );
     var resizeThrottle = null;
     var ratio;
 
@@ -776,7 +799,7 @@ function initAutoHeight( e, opts ) {
     else if ( opts._autoHeightRatio ) { 
         opts.container.height( opts.container.width() / opts._autoHeightRatio );
     }
-    else if ( autoHeight === 'calc' || ( $.type( autoHeight ) == 'number' && autoHeight >= 0 ) ) {
+    else if ( autoHeight === 'calc' || ( $.fn.cycle.varType( autoHeight ) == 'number' && autoHeight >= 0 ) ) {
         if ( autoHeight === 'calc' )
             sentinelIndex = calcSentinelIndex( e, opts );
         else if ( autoHeight >= opts.slides.length )
@@ -898,11 +921,11 @@ $.fn.cycle = function( options ) {
     var cmd, cmdFn, opts;
     var args = $.makeArray( arguments );
 
-    if ( $.type( options ) == 'number' ) {
+    if ( c2.varType( options ) == 'number' ) {
         return this.cycle( 'goto', options );
     }
 
-    if ( $.type( options ) == 'string' ) {
+    if ( c2.varType( options ) == 'string' ) {
         return this.each(function() {
             var cmdArgs;
             cmd = options;
@@ -915,7 +938,7 @@ $.fn.cycle = function( options ) {
             else {
                 cmd = cmd == 'goto' ? 'jump' : cmd; // issue #3; change 'goto' to 'jump' internally
                 cmdFn = opts.API[ cmd ];
-                if ( $.isFunction( cmdFn )) {
+                if ( $.fn.cycle.varType( cmdFn )==='function') {
                     cmdArgs = $.makeArray( args );
                     cmdArgs.shift();
                     return cmdFn.apply( opts.API, cmdArgs );
@@ -964,7 +987,7 @@ $.extend( c2.API, {
         this.stop(); //#204
 
         var opts = this.opts();
-        var clean = $.isFunction( $._data ) ? $._data : $.noop;  // hack for #184 and #201
+        var clean = (this.varType( $._data ) ==='function') ? $._data : $.noop;  // hack for #184 and #201
         clearTimeout(opts.timeoutId);
         opts.timeoutId = 0;
         opts.API.stop();
@@ -1148,14 +1171,14 @@ $(document).on( 'cycle-bootstrap', function( e, opts ) {
 
     function add( slides, prepend ) {
         var slideArr = [];
-        if ( $.type( slides ) == 'string' )
+        if ( $.fn.cycle.varType( slides ) == 'string' )
 
             // FIX: $.trim DEPRECATED in JQUERY 3.5+
             // slides = $.trim( slides );
             
             slides = slides.trim();
                         
-        else if ( $.type( slides) === 'array' ) {
+        else if ( $.fn.cycle.varType( slides) === 'array' ) {
             for (var i=0; i < slides.length; i++ )
                 slides[i] = $(slides[i])[0];
         }
@@ -1422,13 +1445,13 @@ $(document).on( 'cycle-pre-initialize', function( e, opts ) {
     var nextFn = API.next;
     var prevFn = API.prev;
     var prepareTxFn = API.prepareTx;
-    var type = $.type( opts.progressive );
+    var type = $.fn.cycle.varType( opts.progressive );
     var slides, scriptEl;
 
     if ( type == 'array' ) {
         slides = opts.progressive;
     }
-    else if ($.isFunction( opts.progressive ) ) {
+    else if ($.fn.cycle.varType( opts.progressive ) === 'function' ) {
         slides = opts.progressive( opts );
     }
     else if ( type == 'string' ) {
@@ -1573,7 +1596,7 @@ $.extend($.fn.cycle.API, {
                     prop = obj[str];
                 }
 
-                if ($.isFunction(prop))
+                if ($.fn.cycle.varType(prop) ==='function')
                     return prop.apply(obj, args);
                 if (prop !== undefined && prop !== null && prop != str)
                     return prop;

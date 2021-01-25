@@ -2,7 +2,7 @@
 ;(function($) {
 "use strict";
 
-var version = '2.1.6b';
+var version = '2.1.6c';
 
 $.fn.cycle = function( options ) {
     // fix mistakes with the ready state
@@ -107,7 +107,7 @@ $.fn.cycle.API = {
         var opts = this.opts();
         opts.API.trigger('cycle-pre-initialize', [ opts ]);
         var tx = $.fn.cycle.transitions[opts.fx];
-        if (tx && $.isFunction(tx.preInit))
+        if (tx && $.fn.cycle.varType(tx.preInit) ==='function')
             tx.preInit( opts );
         opts._preInitialized = true;
     },
@@ -116,7 +116,7 @@ $.fn.cycle.API = {
         var opts = this.opts();
         opts.API.trigger('cycle-post-initialize', [ opts ]);
         var tx = $.fn.cycle.transitions[opts.fx];
-        if (tx && $.isFunction(tx.postInit))
+        if (tx && $.fn.cycle.varType(tx.postInit) ==='function')
             tx.postInit( opts );
     },
 
@@ -212,7 +212,7 @@ $.fn.cycle.API = {
         var startSlideshow = false;
         var len;
 
-        if ( $.type(slides) == 'string')
+        if ( $.fn.cycle.varType(slides) == 'string')
 
             // FIX: $.trim DEPRECATED in JQUERY 3.5+
             // slides = $.trim( slides );
@@ -432,7 +432,7 @@ $.fn.cycle.API = {
         }
         if ( opts.continueAuto !== undefined ) {
             if ( opts.continueAuto === false || 
-                ($.isFunction(opts.continueAuto) && opts.continueAuto() === false )) {
+                ($.fn.cycle.varType(opts.continueAuto) ==='function' && opts.continueAuto() === false )) {
                 opts.API.log('terminating automatic transitions');
                 opts.timeout = 0;
                 if ( opts.timeoutId )
@@ -628,11 +628,34 @@ $.fn.cycle.log = function log() {
 
 $.fn.cycle.version = function() { return 'Cycle2: ' + version; };
 
+$.fn.cycle.varType = function(obj, fullClass) {
+
+    // get toPrototypeString() of obj (handles all types)
+    // Early JS environments return '[object Object]' for null, so it's best to directly check for it.
+    if (fullClass) {
+        return (obj === null) ? '[object Null]' : Object.prototype.toString.call(obj);
+    }
+    if (obj == null) { return (obj + '').toLowerCase(); } // implicit toString() conversion
+
+    var deepType = Object.prototype.toString.call(obj).slice(8,-1).toLowerCase();
+    if (deepType === 'generatorfunction') { return 'function'; }
+
+    // Prevent overspecificity (for example, [object HTMLDivElement], etc).
+    // Account for functionish Regexp (Android <=2.3), functionish <object> element (Chrome <=57, Firefox <=52), etc.
+    // String.prototype.match is universally supported.
+
+    return deepType.match(/^(array|bigint|date|error|function|generator|regexp|symbol)$/) ? deepType :
+        (typeof obj === 'object' || typeof obj === 'function') ? 'object' : typeof obj;
+};
+
 // helper functions
 
 function lowerCase(s) {
     return (s || '').toLowerCase();
 }
+
+
+
 
 // expose transition object
 $.fn.cycle.transitions = {
