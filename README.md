@@ -1,5 +1,8 @@
 # Cycle2 - 2nd Generation Cycling!
 
+## 📣 DISCUSSION BOARD NOW ACTIVE!
+### Discussions are now enabled for this repository - [click here](https://github.com/thecarnie/cycle2/discussions) to access them.
+
 ## UPDATED REPO
 **This repo contains fixes and updates for Cycle2 to remain compatible with NEWER versions of jQuery 3.x and up.**  
 
