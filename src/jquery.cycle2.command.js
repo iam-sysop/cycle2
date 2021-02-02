@@ -8,11 +8,11 @@ $.fn.cycle = function( options ) {
     var cmd, cmdFn, opts;
     var args = $.makeArray( arguments );
 
-    if ( $.type( options ) == 'number' ) {
+    if ( c2.varType( options ) == 'number' ) {
         return this.cycle( 'goto', options );
     }
 
-    if ( $.type( options ) == 'string' ) {
+    if ( c2.varType( options ) == 'string' ) {
         return this.each(function() {
             var cmdArgs;
             cmd = options;
@@ -25,7 +25,7 @@ $.fn.cycle = function( options ) {
             else {
                 cmd = cmd == 'goto' ? 'jump' : cmd; // issue #3; change 'goto' to 'jump' internally
                 cmdFn = opts.API[ cmd ];
-                if ( $.isFunction( cmdFn )) {
+                if ( $.fn.cycle.varType( cmdFn )==='function') {
                     cmdArgs = $.makeArray( args );
                     cmdArgs.shift();
                     return cmdFn.apply( opts.API, cmdArgs );
@@ -74,7 +74,7 @@ $.extend( c2.API, {
         this.stop(); //#204
 
         var opts = this.opts();
-        var clean = $.isFunction( $._data ) ? $._data : $.noop;  // hack for #184 and #201
+        var clean = (this.varType( $._data ) ==='function') ? $._data : $.noop;  // hack for #184 and #201
         clearTimeout(opts.timeoutId);
         opts.timeoutId = 0;
         opts.API.stop();

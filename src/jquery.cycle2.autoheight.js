@@ -10,7 +10,7 @@ $.extend($.fn.cycle.defaults, {
 
 $(document).on( 'cycle-initialized', function( e, opts ) {
     var autoHeight = opts.autoHeight;
-    var t = $.type( autoHeight );
+    var t = $.fn.cycle.varType( autoHeight );
     var resizeThrottle = null;
     var ratio;
 
@@ -61,7 +61,7 @@ function initAutoHeight( e, opts ) {
     else if ( opts._autoHeightRatio ) { 
         opts.container.height( opts.container.width() / opts._autoHeightRatio );
     }
-    else if ( autoHeight === 'calc' || ( $.type( autoHeight ) == 'number' && autoHeight >= 0 ) ) {
+    else if ( autoHeight === 'calc' || ( $.fn.cycle.varType( autoHeight ) == 'number' && autoHeight >= 0 ) ) {
         if ( autoHeight === 'calc' )
             sentinelIndex = calcSentinelIndex( e, opts );
         else if ( autoHeight >= opts.slides.length )
